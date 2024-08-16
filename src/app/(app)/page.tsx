@@ -1,65 +1,95 @@
-import { Badge } from '@/components/Badge'
-import { Background } from '@/components/Background'
-import Link from 'next/link'
 import React from 'react'
+import Image from 'next/image'
 import config from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 
-const Page = async () => {
-  const payload = await getPayloadHMR({
-    config,
-  })
+const payload = await getPayloadHMR({
+  config,
+})
 
+export default async function Home() {
   const data = await payload.find({
     collection: 'pages',
   })
   return (
-    <>
-      <main>
-        <article>
-          <Badge />
-          <h1>Payload 3.0 - {payload?.config?.collections?.length} collections loaded</h1>{' '}
-          <p>
-            This BETA is rapidly evolving, you can report any bugs against{' '}
-            <Link href="https://github.com/payloadcms/payload-3.0-demo/issues" target="_blank">
-              the repo
-            </Link>{' '}
-            or in the{' '}
-            <Link
-              href="https://discord.com/channels/967097582721572934/1215659716538273832"
-              target="_blank"
-            >
-              dedicated channel in Discord
-            </Link>
-            . Payload is running at <Link href="/admin">/admin</Link>. An example of a custom route
-            running the Local API can be found at <Link href="/my-route">/my-route</Link>.
-          </p>
-          <p>You can use the Local API in your server components like this:</p>
-        </article>
-        <div className="codeBlock">
-          <pre>
-            <code>
-              {`import { getPayloadHMR } from '@payloadcms/next/utilities'
-import config from '@payload-config'
-const payload = await getPayloadHMR({ config })
-const data = await payload.find({
-  collection: 'pages',
-})
-return <Pages data={data} />
-`}
-            </code>
-          </pre>
-        </div>
-        <p>This is the example in action - here is a list of all page titles:</p>
-        <ul>
-          {data.docs.map((doc) => (
-            <li key={doc.id}>{doc.title ?? 'No title'}</li>
+    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <Image
+          className="dark:invert"
+          src="/next.svg"
+          alt="Next.js logo"
+          width={180}
+          height={38}
+          priority
+        />
+
+        <div>
+          {data.docs.map((page) => (
+            <div key={page.id}>
+              <ul className="list-disc">
+                <li>
+                  <h2>{page.title}</h2>
+                </li>
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
+
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
+            Deploy now
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our docs
+          </a>
+        </div>
       </main>
-      <Background />
-    </>
+      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image aria-hidden src="/file-text.svg" alt="File icon" width={16} height={16} />
+          Learn
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
+          Examples
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
+          Go to nextjs.org →
+        </a>
+      </footer>
+    </div>
   )
 }
-
-export default Page
