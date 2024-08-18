@@ -3,11 +3,10 @@ import Image from 'next/image'
 import config from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 
-const payload = await getPayloadHMR({
-  config,
-})
-
 export default async function Home() {
+  const payload = await getPayloadHMR({
+    config,
+  })
   const data = await payload.find({
     collection: 'pages',
   })
