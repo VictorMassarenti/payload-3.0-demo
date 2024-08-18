@@ -23,6 +23,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
+import { revalidateHook } from '@/app/revalidateActions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -55,6 +56,9 @@ export default buildConfig({
           type: 'richText',
         },
       ],
+      hooks: {
+        afterChange: [revalidateHook],
+      },
     },
     {
       slug: 'media',
