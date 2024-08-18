@@ -3,13 +3,13 @@ import Image from 'next/image'
 import config from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 
+const payload = await getPayloadHMR({
+  config,
+})
+const data = await payload.find({
+  collection: 'pages',
+})
 export default async function Home() {
-  const payload = await getPayloadHMR({
-    config,
-  })
-  const data = await payload.find({
-    collection: 'pages',
-  })
   console.log('🚀 ~ Home ~ data:', data)
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
